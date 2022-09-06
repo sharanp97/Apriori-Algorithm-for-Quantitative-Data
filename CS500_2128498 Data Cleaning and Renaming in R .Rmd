@@ -1,0 +1,82 @@
+---
+title: "Dissertation Analysis"
+author: "PATIL"
+date: "19/08/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+
+analysis <- read.csv("CREDIT TRANSFER IN HIGHER EDUCATION USING BLOCKCHAIN .csv", sep = ',', header = TRUE)
+```
+
+```{r}
+# Structure of dataset
+str(analysis)
+```
+
+```{r}
+# Dimensions of dataset
+dim(analysis)
+```
+
+```{r}
+# Removing initial consent columns which are to be excluded for analysis 
+analysis1 <- analysis[-c(1,1:10)]
+str(analysis1)
+```
+
+```{r}
+# Renaming columns by column index
+newanalysis<- analysis1 %>%
+       rename(Country= 1,
+              Educational_Level = 2, 
+              CreditFramework = 3,
+              Awareness = 4,
+              Student_hurdles_in_academic_credentials	= 5,
+              Time_vs_Costs = 6,
+              Digitalcredentials_effectiveness = 7,
+              Decentralisation_effectiveness = 8,
+              Global_Collaboration_needed = 9,
+              KW_Credential_problem_suggestions = 10,
+              KW_Blockchain_Adoption_suggestions = 11)
+newanalysis
+```
+
+```{r}
+# Renaming Educational Levels  
+
+newanalysis[newanalysis == "Bachelor's"] <- "Bachelors"
+newanalysis[newanalysis == "Master's"] <- "Masters"
+newanalysis[newanalysis == "Below Bachelor's (12th, diploma, GCSE, A Level, etc)"] <- "Below Bachelors"
+str(newanalysis$Educational_Level)
+
+```
+
+```{r}
+#Renaming Credit Frameworks 
+
+str(newanalysis$CreditFramework)
+newanalysis[newanalysis == "Asian credit systems (countries in Asia)"] <- "ASIAN"
+newanalysis[newanalysis == "CATS (Credit Accumulation and Transfer Scheme) - UK"] <- "CATS - UK"
+newanalysis[newanalysis == "ECTS (European Credit Transfer System) - EU"] <- "ECTS - EU"
+newanalysis[newanalysis == "ACS (American Credit System) - American"] <- "ACS - US"
+newanalysis[newanalysis == "Does not follow any credit awarding framework"] <- "Does not follow"
+
+```
+
+```{r}
+write.csv(newanalysis,"D:\\Brunel\\Dissertation\\TableauCredit.csv", row.names = FALSE)
+```
+
+
